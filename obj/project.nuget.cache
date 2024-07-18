@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "FrCxWoFpyGsmQp3llmSUAONJu45YgjU/wXl3HHc3I45A7T42t0KJA3iyTn2TPuw42ETLHjEOzny/qnZo+Mf6Pg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\yokon\\Documents\\My Games\\Terraria\\tModLoader\\ModSources\\CapitalismHell\\CapitalismHell.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\yokon\\.nuget\\packages\\tmodloader.codeassist\\0.1.5\\tmodloader.codeassist.0.1.5.nupkg.sha512"
+  ],
+  "logs": []
+}

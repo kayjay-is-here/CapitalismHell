@@ -1,0 +1,5 @@
+C:\Users\yokon\Documents\My Games\Terraria\tModLoader\ModSources\CapitalismHell\obj\Debug\net8.0\CapitalismHell.csproj.AssemblyReference.cache
+C:\Users\yokon\Documents\My Games\Terraria\tModLoader\ModSources\CapitalismHell\obj\Debug\net8.0\CapitalismHell.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\yokon\Documents\My Games\Terraria\tModLoader\ModSources\CapitalismHell\obj\Debug\net8.0\CapitalismHell.AssemblyInfoInputs.cache
+C:\Users\yokon\Documents\My Games\Terraria\tModLoader\ModSources\CapitalismHell\obj\Debug\net8.0\CapitalismHell.AssemblyInfo.cs
+C:\Users\yokon\Documents\My Games\Terraria\tModLoader\ModSources\CapitalismHell\obj\Debug\net8.0\CapitalismHell.csproj.CoreCompileInputs.cache
