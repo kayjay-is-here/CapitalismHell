@@ -10,7 +10,7 @@ namespace CapitalismHell.Common.Players.Charges
         private float _lastY;
         private int _counter;
 
-        public const bool DEBUG = false; // Toggle for debug messages
+        public bool Debug { get; set; } = true; // Toggle for debug messages
         public const bool SHOULD_CHARGE_FOR_FALL = false; // Flag to charge for falling
         public const int MOVE_COST = 1; // Cost per move, should be moved to config
         public const float DISTANCE_EPSILON = 0.0001f; // Threshold for detecting movement
@@ -45,18 +45,25 @@ namespace CapitalismHell.Common.Players.Charges
                 return;
             }
 
-            // Log debug information if enabled
-            LogDebugInfo(currentX, currentY);
+            // Log debug information if applicable
+            LogDebug(currentX, currentY);
 
             // Charge the player for movement if applicable
-            if (hasMoved && !(isFalling && !SHOULD_CHARGE_FOR_FALL))
+            //if (hasMoved && !(isFalling && !SHOULD_CHARGE_FOR_FALL))
+            if(hasMoved)
             {
                 ChargePlayerForStep(currentX, currentY);
+            }
+
+            // Reset the counter to prevent overflow
+            if (_counter >= int.MaxValue)
+            {
+                _counter = NUM_GRACE_TICKS;
             }
         }
 
         // Check if the player's position is at the origin
-        private bool IsAtOrigin(float x, float y) => x < DISTANCE_EPSILON && y < DISTANCE_EPSILON;
+        private static bool IsAtOrigin(float x, float y) => x < DISTANCE_EPSILON && y < DISTANCE_EPSILON;
 
         // Update the last known position of the player
         private void UpdateLastPosition(float x, float y)
@@ -65,34 +72,47 @@ namespace CapitalismHell.Common.Players.Charges
             _lastY = y;
         }
 
-        // Log debug information
-        private void LogDebugInfo(float currentX, float currentY)
+        // Log debug information if debug is enabled
+        private void LogDebug(float currentX, float currentY)
         {
-            if (DEBUG && _counter % NUM_TEXT_COOLDOWN_TICKS == 0)
+            if (Debug)
             {
-                Main.NewText($"DEBUG: currentPos=({currentX}, {currentY}) | lastPos=({_lastX},{_lastY}) | counter={_counter}", 255, 255, 204);
+                if (_counter % NUM_TEXT_COOLDOWN_TICKS == 0)
+                {
+                    Main.NewText($"DEBUG: currentPos=({currentX}, {currentY}) | lastPos=({_lastX},{_lastY}) | counter={_counter}", 255, 255, 204);
+                }
             }
         }
 
         // Charge the player for taking a step
         private void ChargePlayerForStep(float currentX, float currentY)
         {
-            if (Player.CanAfford(MOVE_COST))
+            LogDebugInfo($"DEBUG: Attempting to charge player. Has moved: {Player.position.X != _lastX}");
+            if (Player.BuyItem(MOVE_COST))
             {
-                Player.BuyItem(MOVE_COST);
+                LogDebugInfo($"DEBUG: Charged {MOVE_COST} for movement");
                 UpdateLastPosition(currentX, currentY);
             }
             else
             {
                 // Display a message if the player cannot afford to move, respecting the cooldown
-                if ((_counter + 1) % NUM_TEXT_COOLDOWN_TICKS == 0)
+                if (_counter % NUM_TEXT_COOLDOWN_TICKS == 0)
                 {
-                    Main.NewText("You do not currently have enough money to move!", 255, 0 ,0);
+                    Main.NewText("You do not currently have enough money to move!", 255, 0, 0);
                 }
 
                 // Prevent the player from moving by resetting their position
                 Player.position.X = _lastX;
                 Player.position.Y = _lastY;
+            }
+        }
+
+        // Log debug information
+        private void LogDebugInfo(string message)
+        {
+            if (Debug)
+            {
+                Main.NewText(message, 255, 255, 204);
             }
         }
     }
