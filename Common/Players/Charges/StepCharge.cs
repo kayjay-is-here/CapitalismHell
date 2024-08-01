@@ -2,6 +2,8 @@
 using Terraria.ModLoader;
 using Terraria;
 using CapitalismHell.Common.Tools;
+using Terraria.ModLoader.Exceptions;
+using Terraria.Localization;
 
 namespace CapitalismHell.Common.Players.Charges
 {
@@ -87,7 +89,7 @@ namespace CapitalismHell.Common.Players.Charges
             // Display a message if the player cannot afford to move, respecting the cooldown
             if (_counter % NUM_TEXT_COOLDOWN_TICKS == 0)
             {
-                Main.NewText("You do not currently have enough money to move!", 255, 0, 0);
+                Main.NewText(Language.GetTextValue("Mods.CapitalismHell.Charges.StepInsufficient"), 255, 0, 0);
             }
 
             // Prevent the player from moving by resetting their position
@@ -102,9 +104,9 @@ namespace CapitalismHell.Common.Players.Charges
 
             double CostBeforeMultiplier = Math.Abs(currentX - _lastX) + (int)Math.Abs(isFalling ? 0 : currentY - _lastY);
             int Cost = (int)Math.Ceiling(CostBeforeMultiplier * COST_MULT);
-            Debug.Log($"DEBUG: Attempting to charge player {Cost}. Has moved (bool): {Player.position.X != _lastX}");
+            Debug.Log($"Attempting to charge player {Cost}. Has moved (bool): {Player.position.X != _lastX}");
             
-            if(!Player.CanAfford(1))
+            if(!isFalling && !Player.CanAfford(1))
             {
                 StopMovement();
                 return;
@@ -116,7 +118,7 @@ namespace CapitalismHell.Common.Players.Charges
             {
                 if (Player.BuyItem(Cost))
                 {
-                    Debug.Log($"DEBUG: Charged for movement");
+                    Debug.Log($"Charged for movement");
                 }
             }
             else

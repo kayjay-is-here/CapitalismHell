@@ -1,1 +1,20 @@
+Commands: {
+	LoanCommand: {
+		Command: getloan
+		Description: Applies for a loan of 10 gold
+		ActionText: You have been given ten gold coins!
+	}
+}
+
+General.OnEnterWorld:
+	'''
+	The Capitalism Hell Mod is Currently Active.
+	If you are starting the challenge or simply have been softlocked, use /getloan to grab some money.
+	'''
+
+Charges: {
+	HurtInsufficient.DeathMessage: "{0} was unable to afford insurance to cover their injuries."
+	StepInsufficient: You do not currently have enough money to move!
+}
+
 Keybinds.CoinDisplay.DisplayName: Coin Display

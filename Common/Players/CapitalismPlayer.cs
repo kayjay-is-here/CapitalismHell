@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using Terraria;
+using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace CapitalismHell.Common.Players
@@ -18,6 +19,12 @@ namespace CapitalismHell.Common.Players
         public override void Load()
         {
             IL_Player.BuyItem += OnBuyItem;
+        }
+
+        public override void OnEnterWorld()
+        {
+            // Display starting message
+            Main.NewText(Language.GetTextValue("Mods.CapitalismHell.General.OnEnterWorld"), Color.Orchid);
         }
 
         private void OnBuyItem(ILContext IL)
@@ -31,14 +38,11 @@ namespace CapitalismHell.Common.Players
                 
                 c.GotoNext(i => i.MatchLdarg0()); // PayCurrency(>>>this<<<, int64 price, int32 customCurrency)
 
-                MethodInfo spawnMethod = typeof(CoinLossText).GetMethod("Spawn", BindingFlags.Public | BindingFlags.Instance);
-                if (spawnMethod == null)
-                {
-                    throw new InvalidOperationException("Spawn method not found in CoinLossText.");
-                }
+                MethodInfo spawnMethod = typeof(CoinLossText).GetMethod("Spawn", BindingFlags.Public | BindingFlags.Static)
+                    ?? throw new InvalidOperationException("Spawn method not found in CoinLossText.");
 
                 // Call custom function before loading in and calling PayCurrency
-                c.Emit(OpCodes.Ldarg_0);
+                //c.Emit(OpCodes.Ldarg_0); // no longer needed since I changed this from instance to static
                 c.Emit(OpCodes.Ldarg_1);
                 c.Emit(OpCodes.Call, spawnMethod); // Calls CoinLossText.Spawn(price)
             }

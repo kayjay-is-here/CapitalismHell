@@ -8,6 +8,10 @@
 		
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="Localization\en-US_Mods - Copy.CapitalismHell.hjson" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Common\NewFolder\" />
 	  <Folder Include="Common\Players\NewFolder\" />
 	</ItemGroup>
 
