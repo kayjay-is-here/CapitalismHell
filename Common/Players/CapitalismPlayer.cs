@@ -1,4 +1,5 @@
-﻿using CapitalismHell.Common.UI;
+﻿using CapitalismHell.Common.Players.Charges;
+using CapitalismHell.Common.UI;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Mono.Cecil;
@@ -9,6 +10,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
@@ -16,6 +18,15 @@ namespace CapitalismHell.Common.Players
 {
     public class CapitalismPlayer : ModPlayer
     {
+        public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
+        {
+            // Reset last position on death so the player doesn't spawn where they died
+            StepCharge stepCharge = ModContent.GetInstance<StepCharge>();
+            stepCharge.LastX = 0;
+            stepCharge.LastY = 0;
+
+        }
+
         public override void Load()
         {
             IL_Player.BuyItem += OnBuyItem;

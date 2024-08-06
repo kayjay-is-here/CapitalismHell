@@ -2,3 +2,4 @@
 *.vsidx
 /.vs
 /obj/Debug
+/bin/Debug

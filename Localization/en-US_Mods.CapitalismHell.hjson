@@ -18,3 +18,14 @@ Charges: {
 }
 
 Keybinds.CoinDisplay.DisplayName: Coin Display
+
+Configs: {
+	CapitalismHellModConfig: {
+		DisplayName: Capitalism Hell Mod Config
+
+		StepCost: {
+			Label: Step Cost
+			Tooltip: ""
+		}
+	}
+}

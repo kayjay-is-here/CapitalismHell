@@ -4,18 +4,19 @@ using Terraria;
 using CapitalismHell.Common.Tools;
 using Terraria.ModLoader.Exceptions;
 using Terraria.Localization;
+using Steamworks;
+using CapitalismHell.Common.Config;
 
 namespace CapitalismHell.Common.Players.Charges
 {
     public class StepCharge : ModPlayer
     {
-        private float _lastX;
-        private float _lastY;
+        public float LastX { get; set; }
+        public float LastY { get; set;  }
         private int _counter;
         
         public DebugInstance Debug;
 
-        public const double COST_MULT = 0.2; // Cost per move, should be moved to config
         public const float DISTANCE_EPSILON = 0.0001f; // Threshold for detecting movement
         public const int NUM_GRACE_TICKS = 5; // Number of ticks before starting to charge
         public const int NUM_CHARGE_COOLDOWN_TICKS = 5;
@@ -28,8 +29,8 @@ namespace CapitalismHell.Common.Players.Charges
 
         public override void OnEnterWorld()
         {
-            _lastX = Player.position.X;
-            _lastY = Player.position.Y;
+            LastX = Player.position.X;
+            LastY = Player.position.Y;
             _counter = 0;
         }
 
@@ -46,10 +47,10 @@ namespace CapitalismHell.Common.Players.Charges
             float currentX = Player.position.X;
             float currentY = Player.position.Y;
 
-            bool hasMoved = Math.Abs(currentX - _lastX) > DISTANCE_EPSILON || Math.Abs(currentY - _lastY) > DISTANCE_EPSILON;
+            bool hasMoved = Math.Abs(currentX - LastX) > DISTANCE_EPSILON || Math.Abs(currentY - LastY) > DISTANCE_EPSILON;
 
             // Check if the player is at the origin (0,0), and if so, update last position and skip charging
-            if (IsAtOrigin(_lastX, _lastY))
+            if (IsAtOrigin(LastX, LastY))
             {
                 UpdateLastPosition(currentX, currentY);
                 return;
@@ -57,7 +58,7 @@ namespace CapitalismHell.Common.Players.Charges
 
             if (_counter % NUM_TEXT_COOLDOWN_TICKS == 0)
             {
-                Debug.Log($"DEBUG: currentPos=({currentX}, {currentY}) | lastPos=({_lastX},{_lastY}) | counter={_counter}");
+                Debug.Log($"DEBUG: currentPos=({currentX}, {currentY}) | lastPos=({LastX},{LastY}) | counter={_counter}");
             }
 
             // Charge the player for movement if applicable
@@ -79,8 +80,8 @@ namespace CapitalismHell.Common.Players.Charges
         // Update the last known position of the player
         private void UpdateLastPosition(float x, float y)
         {
-            _lastX = x;
-            _lastY = y;
+            LastX = x;
+            LastY = y;
         }
 
         // Stop player movements
@@ -93,18 +94,18 @@ namespace CapitalismHell.Common.Players.Charges
             }
 
             // Prevent the player from moving by resetting their position
-            Player.position.X = _lastX;
-            Player.position.Y = _lastY;
+            Player.position.X = LastX; 
+            Player.position.Y = LastY;
         }
 
         // Charge the player for taking a step
         private void ChargePlayerForStep(float currentX, float currentY)
         {
-            bool isFalling = currentY - _lastY > DISTANCE_EPSILON;
+            bool isFalling = currentY - LastY > DISTANCE_EPSILON;
 
-            double CostBeforeMultiplier = Math.Abs(currentX - _lastX) + (int)Math.Abs(isFalling ? 0 : currentY - _lastY);
-            int Cost = (int)Math.Ceiling(CostBeforeMultiplier * COST_MULT);
-            Debug.Log($"Attempting to charge player {Cost}. Has moved (bool): {Player.position.X != _lastX}");
+            double CostBeforeMultiplier = Math.Abs(currentX - LastX) + (int)Math.Abs(isFalling ? 0 : currentY - LastY);
+            int Cost = (int)Math.Ceiling(CostBeforeMultiplier * ModContent.GetInstance<CapitalismHellModConfig>().StepCost);
+            Debug.Log($"Attempting to charge player {Cost}. Has moved (bool): {Player.position.X != LastX}");
             
             if(!isFalling && !Player.CanAfford(1))
             {
