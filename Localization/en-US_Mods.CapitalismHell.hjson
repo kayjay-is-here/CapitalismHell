@@ -23,9 +23,14 @@ Configs: {
 	CapitalismHellModConfig: {
 		DisplayName: Capitalism Hell Mod Config
 
-		StepCost: {
-			Label: Step Cost
-			Tooltip: ""
+		StepBaseCost: {
+			Label: Step Base Cost
+			Tooltip: Cost for taking one step (You take about 5 steps per second without items)
+		}
+
+		HurtBaseCost: {
+			Label: Hurt Base Cost
+			Tooltip: Cost per damage taken
 		}
 	}
 }

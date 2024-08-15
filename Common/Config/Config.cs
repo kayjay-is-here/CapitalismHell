@@ -15,7 +15,10 @@ namespace CapitalismHell.Common.Config
         public override ConfigScope Mode => ConfigScope.ClientSide;
 
         [DefaultValue(0.2f)]
-        public float StepCost; // SHould be 0.2
+        public float StepBaseCost;
+
+        [DefaultValue(1)]
+        public int HurtBaseCost;
 
         // Add code for backwards compatibility here
         [OnDeserialized]

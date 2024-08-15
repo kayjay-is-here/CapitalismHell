@@ -6,12 +6,12 @@ using CapitalismHell.Common.Systems;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Terraria.DataStructures;
 using Terraria.Localization;
+using CapitalismHell.Common.Config;
 
 namespace CapitalismHell.Common.Players.Charges
 {
     public class HurtCharge : ModPlayer
     {
-        public const int COST_MULT = 1;
 
         public DebugInstance Debug;
         public override void Initialize()
@@ -21,7 +21,7 @@ namespace CapitalismHell.Common.Players.Charges
 
         public override void OnHurt(Player.HurtInfo info)
         {
-            int cost = ModContent.GetInstance<InflationSystem>().GetAmountAfterInflation(info.Damage * COST_MULT);
+            int cost = ModContent.GetInstance<InflationSystem>().GetAmountAfterInflation(info.Damage * ModContent.GetInstance<CapitalismHellModConfig>().HurtBaseCost);
             if (!Player.BuyItem(cost))
             {
                 LocalizedText deathMessage = Language.GetText("Mods.CapitalismHell.Charges.HurtInsufficient.DeathMessage");
