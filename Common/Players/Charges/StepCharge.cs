@@ -102,9 +102,8 @@ namespace CapitalismHell.Common.Players.Charges
         private void ChargePlayerForStep(float currentX, float currentY)
         {
             bool isFalling = currentY - LastY > DISTANCE_EPSILON;
-
-            double CostBeforeMultiplier = Math.Abs(currentX - LastX) + (int)Math.Abs(isFalling ? 0 : currentY - LastY);
-            int Cost = (int)Math.Ceiling(CostBeforeMultiplier * ModContent.GetInstance<CapitalismHellModConfig>().StepBaseCost);
+            double distanceMoved = Math.Sqrt(Math.Pow(currentX - LastX, 2) + Math.Pow(isFalling ? 0 : currentY - LastY, 2));
+            int Cost = (int)Math.Ceiling(distanceMoved * ModContent.GetInstance<CapitalismHellModConfig>().StepBaseCost);
             Debug.Log($"Attempting to charge player {Cost}. Has moved (bool): {Player.position.X != LastX}");
             
             if(!isFalling && !Player.CanAfford(1))

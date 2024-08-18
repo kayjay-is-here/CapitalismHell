@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CapitalismHell")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d0f1c2f208177478e1eec266f792bde1257705c1")]
 [assembly: System.Reflection.AssemblyProductAttribute("CapitalismHell")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CapitalismHell")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -13,7 +13,7 @@ namespace CapitalismHell.Common.Systems
     public class InflationSystem : ModSystem
     {
         public float InflationRate { get; private set; }
-        public static DebugInstance Debug;
+        public DebugInstance Debug;
         public const float BOSS_RATE_MULT = 1.5f;
         private HashSet<string> _bossesDefeated = new();
 
@@ -21,6 +21,7 @@ namespace CapitalismHell.Common.Systems
         {
             // Update inflation rate when the world is loaded
             UpdateInflationRate();
+            Debug = new();
             Debug.ShowDebug = true; // This should be true by default for me to see 
         }
 
